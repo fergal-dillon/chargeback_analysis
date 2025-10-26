@@ -1,0 +1,10 @@
+SELECT
+  Class,
+  COUNT(*) AS num_transactions,
+  ROUND(COUNT(*) / (SELECT COUNT(*) FROM `chargeback-analysis.chargeback_data.Transactions`) * 100, 2) AS percent_of_total
+FROM
+  `chargeback-analysis.chargeback_data.Transactions`
+GROUP BY
+  Class
+ORDER BY
+  Class;

@@ -1,0 +1,10 @@
+SELECT
+  Class,
+  COUNT(*) AS count,
+  ROUND(COUNT(*) / SUM(COUNT(*)) OVER() * 100, 2) AS percentage
+FROM
+  `chargeback-analysis.chargeback_data.Transactions`
+GROUP BY
+  Class
+ORDER BY
+  Class;

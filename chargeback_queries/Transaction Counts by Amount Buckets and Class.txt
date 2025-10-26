@@ -1,0 +1,24 @@
+WITH bucketed AS (
+  SELECT
+    CASE
+      WHEN Amount < 50 THEN '<50'
+      WHEN Amount >= 50 AND Amount < 100 THEN '50-99'
+      WHEN Amount >= 100 AND Amount < 200 THEN '100-199'
+      WHEN Amount >= 200 AND Amount < 500 THEN '200-499'
+      WHEN Amount >= 500 AND Amount < 1000 THEN '500-999'
+      ELSE '1000+'
+    END AS amount_bucket,
+    Class
+  FROM
+    `chargeback-analysis.chargeback_data.Transactions`
+)
+SELECT
+  amount_bucket,
+  SUM(CASE WHEN Class = 0 THEN 1 ELSE 0 END) AS class_0_count,
+  SUM(CASE WHEN Class = 1 THEN 1 ELSE 0 END) AS class_1_count
+FROM
+  bucketed
+GROUP BY
+  amount_bucket
+ORDER BY
+  amount_bucket;

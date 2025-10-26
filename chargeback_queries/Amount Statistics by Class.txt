@@ -1,0 +1,12 @@
+SELECT
+  Class,
+  MIN(Amount) AS min_amount,
+  MAX(Amount) AS max_amount,
+  AVG(Amount) AS avg_amount,
+  APPROX_QUANTILES(Amount, 2)[OFFSET(1)] AS median_amount
+FROM
+  `chargeback-analysis.chargeback_data.Transactions`
+GROUP BY
+  Class
+ORDER BY
+  Class;

@@ -1,0 +1,9 @@
+SELECT
+  MIN(Amount) AS min_amount,
+  MAX(Amount) AS max_amount,
+  AVG(Amount) AS avg_amount,
+  COUNT(*) AS total_transactions,
+  SUM(CASE WHEN Class = 1 THEN 1 ELSE 0 END) AS fraud_count,
+  SUM(CASE WHEN Class = 0 THEN 1 ELSE 0 END) AS non_fraud_count
+FROM
+  `chargeback-analysis.chargeback_data.Transactions`;

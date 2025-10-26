@@ -1,0 +1,7 @@
+SELECT
+  MIN(Amount) AS min_amount,
+  MAX(Amount) AS max_amount,
+  AVG(Amount) AS avg_amount,
+  APPROX_QUANTILES(Amount, 100)[OFFSET(50)] AS median_amount
+FROM
+  `chargeback-analysis.chargeback_data.Transactions`;
