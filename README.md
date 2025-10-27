@@ -1,8 +1,15 @@
-# Chargeback Analysis
+# Chargeback Monitoring & Risk Analysis
 
-This project analyzes synthetic credit card transaction data to explore trends in fraudulent activity. The goal is to understand the distribution of transaction amounts and the occurrence of fraud.  
+This project uses synthetic credit card transaction data to identify trends in fraudulent or high-risk transactions that may contribute to chargebacks.  
+The goal is to monitor chargeback rates, detect emerging patterns, and ultimately **keep dispute ratios low to meet Visa and Mastercard compliance thresholds**.
 
-## Project Structure
+By analyzing transaction data in Google BigQuery, this project simulates a typical workflow used in a Risk or Chargeback Operations team.
+
+---
+
+## 🗂 Project Structure
+
+
 
 chargeback_data/
 ├─ queries/       # SQL queries used for analysis
@@ -10,34 +17,54 @@ chargeback_data/
 └─ README.md      # Project overview and documentation
 
 
-## Data
 
-- **Source:** Synthetic dataset of 200–500 transactions
-- **Columns used:**  
-  - `Time` – Timestamp of the transaction  
-  - `V1` – Random feature for analysis  
-  - `Amount` – Transaction amount  
-  - `Class` – Fraud label (0 = non-fraud, 1 = fraud)
+---
 
-## Queries
+## 📊 Data
 
-The SQL queries in the `queries/` folder perform the following analyses:
+- **Source:** Synthetic dataset of 200–500 transactions  
+- **Purpose:** Simulated credit card transaction data to explore chargeback and fraud correlations  
+- **Columns:**  
+  - `Time` – Transaction timestamp  
+  - `V1` – Randomized feature (acts as a proxy for risk-related signal)  
+  - `Amount` – Transaction amount in dollars  
+  - `Class` – Chargeback indicator (`0 = non-chargeback`, `1 = chargeback/fraud`)  
 
-1. **Transaction summary** – Minimum, maximum, average, total transactions, fraud vs non-fraud counts (`query_summary.sql`)  
-2. **Class distribution** – Count and percentage of fraud vs non-fraud transactions (`query_class_distribution.sql`)  
-3. **Amount statistics** – Minimum, maximum, average, median transaction amounts (`query_amount_stats.sql`)  
-4. **Class-wise amount statistics** – Same stats split by Class (`query_class_amount_stats.sql`)  
-5. **Amount buckets** – Transactions grouped into amount ranges with fraud counts (`query_amount_buckets.sql`)  
-6. **Fraud rate by amount bucket** – Percentage of fraud within each amount bucket (`query_fraud_rate.sql`)  
+---
 
-## Charts
+## 🧠 Analysis Overview
 
-- `chart_bucket_class.png` – Count of transactions per amount bucket, split by Class  
-- `graph_fraudrate_amount.png` – Fraud rate by transaction amount bucket  
+Each query in the `queries/` folder supports part of the chargeback monitoring process:
 
-## How to Run
+1. **Transaction Summary** – Basic metrics including min/max/avg amounts and chargeback counts (`query_summary.sql`)  
+2. **Chargeback Distribution** – Breakdown of total chargebacks vs non-chargebacks (`query_class_distribution.sql`)  
+3. **Transaction Amount Stats** – Summary statistics across all transactions (`query_amount_stats.sql`)  
+4. **Class-Based Statistics** – Compare chargeback vs non-chargeback transactions by amount (`query_class_amount_stats.sql`)  
+5. **Amount Buckets** – Segment transactions into amount ranges to identify chargeback patterns (`query_amount_buckets.sql`)  
+6. **Chargeback Rate by Amount Range** – Calculate and visualize the percentage of chargebacks within each amount bucket (`query_fraud_rate.sql`)  
 
-1. Open your BigQuery project.  
-2. Create the `Transactions` table and upload the dataset.  
-3. Run the SQL queries in order for analysis.  
-4. Generate charts based on query results.  
+---
+
+## 📈 Charts
+
+- `chart_bucket_class.png` – Transaction count per amount bucket, split by chargeback status  
+- `graph_fraudrate_amount.png` – Chargeback rate (%) per transaction amount bucket  
+
+These visualizations help identify which transaction ranges contribute disproportionately to chargebacks — a key insight for maintaining acceptable chargeback ratios under Visa/Mastercard rules.
+
+---
+
+## ⚙️ How to Run
+
+1. Open your **Google BigQuery** project.  
+2. Create a dataset and upload the synthetic `Transactions` table.  
+3. Run the SQL queries from the `/queries` folder in order.  
+4. Visualize the results in BigQuery or export them to charts.  
+
+---
+
+## ✅ Outcome
+
+This project demonstrates a simplified version of how risk teams monitor transaction trends and chargeback ratios.  
+The insights can guide **preventive strategies** (e.g., adjusting fraud filters, refund policies, or merchant onboarding criteria) to **reduce chargebacks and ensure compliance** with card network thresholds.
+
